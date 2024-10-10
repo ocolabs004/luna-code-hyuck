@@ -1,17 +1,18 @@
-AWSTemplateFormatVersion: '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
-Resources:
-  HelloWorldFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: main                 
-      Runtime: go1.x                 
-      CodeUri: ./                   
-      MemorySize: 128               
-      Timeout: 5                    
-      Events:                        
-        HelloWorldApi:
-          Type: Api
-          Properties:
-            Path: /hello            
-            Method: get             
+AWSTemplateFormatVersion: '2010-09-09' #yaml 형식의 버전 - 2010.09.09 aws 템플릿 파일 표준
+Transform: AWS::Serverless-2016-10-31 # aws sam 템플릿 서버리스 애플리케이션을 정의하고 관리하기 위해 이 속성이 필요함
+Resources: #aws에서 생성될 리소스들을 정의 (aws lambda 함수와 API gateway 리소스 설정)
+  HelloWorldFunction: #정의할 lambda 함수 이름 (lambda 함수의 논리적인 이름이며, 다른 곳에서도 이 이름으로 참조 가능)
+    Type: AWS::Serverless::Function #lambda 함수의 타입을 정의(WS::Serverless::Function은 SAM에서 Lambda 함수를 나타내는 리소스 타입 이 줄을 통해 이 템플릿은 Lambda 함수를 생성한다는 것을 AWS에게 알려줌)
+    Properties: #lambda 함수의 세부 설정(여기서 lambda함수가 어떻게 동작하는지에 대한 다양한 속성들을 설정)
+      Handler: main #lambda가 실행할 핸들러 함수 정의(go언어에서 main은 실헹할 함수 이름 lambda는 main이라는 이름의 함수가 있는 실행 파일을 실행하게 됨)          
+      Runtime: provided.al2  #런타임 환경 설정 aws에서 go로 작성된 코드를 실행할 수 있도록 지원        
+      CodeUri: ./function.zip #lambad 함수의 코드가 저장된 경로 현재 디렉터리(./)에 있는 코드를 lambda에 업로드해서 실행한다는 의미                   
+      MemorySize: 128 #lambda 함수가 실행될 때 사용할 메모리 크기 설정 (128MB 더많은 메모리를 사용할 수 있지만 비용이 많이 듬)      
+      Timeout: 5 #lambda 함수 처리시간 (5초안에 처리가 안되면 에러처리)                   
+      Events: #lambda 함수가 이벤트를 통해 어떻게 실행될지 정의(여기서는 lambda함수가 http요청을 받을 떄 실행되도록 설정                       
+        HelloWorldApi: #lambda 함수와 연결된 이벤트의 이름
+          Type: Api # Lambda 함수가 API Gateway를 통해 호출된다는 것을 설정함 api는 api gateway가 lambda함수를 호출하도록 설정함
+          Properties: # api gateway의 세부 설정
+            Path: /hello # api gateway에서 호출될 경로를 정의         
+            Method: get # 메서드 설정  
+ 

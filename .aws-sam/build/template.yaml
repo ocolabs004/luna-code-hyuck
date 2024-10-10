@@ -1,12 +1,15 @@
-AWSTemplateFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Resources:
   HelloWorldFunction:
     Type: AWS::Serverless::Function
+    Metadata:
+      BuildMethod: go1.x
+      SamResourceId: HelloWorldFunction
     Properties:
       Handler: bootstrap
       Runtime: provided.al2
-      CodeUri: ../../function.zip
+      CodeUri: HelloWorldFunction
       MemorySize: 128
       Timeout: 5
       Events:
